@@ -139,3 +139,6 @@ d3.csv('data/Messi_vs_Ronaldo.csv').then(data => {
         drawGraph();
     });
 });
+
+// Add this line at the end of the file
+export {};

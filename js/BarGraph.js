@@ -1,5 +1,5 @@
 // set the dimensions and margins of the graph
-const margin = {top: 10, right: 30, bottom: 20, left: 50},
+const margin = {top: 40, right: 30, bottom: 20, left: 50},
     width = 850 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
@@ -63,10 +63,10 @@ d3.csv("data/factors.csv").then( function(data) {
             .style("opacity", 1)
     }
     const mousemove = function (event, d) {
-        tooltip.style("transform", "translateY(-55%)")
-            .style("left", (event.x) / 2 + "px")
-            .style("top", (event.y) / 2 - 30 + "px")
-    }
+        tooltip
+            .style("left", event.pageX + 10 + "px")
+            .style("top", event.pageY - 28 + "px");
+    };
     const mouseleave = function (event, d) {
         tooltip
             .style("opacity", 0)
@@ -117,7 +117,7 @@ d3.csv("data/factors.csv").then( function(data) {
         .style("border-radius", "5px")
         .style("padding", "10px");
 
-// ----------------
+/// ----------------
 // Create a legend
 // ----------------
     const legend = svg.append("g")
@@ -127,16 +127,16 @@ d3.csv("data/factors.csv").then( function(data) {
         .selectAll("g")
         .data(groups.flatMap(g => [g + "_Shots", g + "_Shots on Target"]))
         .enter().append("g")
-        .attr("transform", (d, i) => "translate(" + (i % 2) * 180 + "," + Math.floor(i / 2) * 20 + ")");
+        .attr("transform", (d, i) => "translate(" + (i % 2) * 200 + "," + Math.floor(i / 2) * 20 + ")");
 
     legend.append("rect")
-        .attr("x", width + 15)
-        .attr("width", 19)
+        .attr("x", (d, i) => width - 580 + (i % 2) * 110)
+        .attr("width", 30)
         .attr("height", 19)
-        .attr("fill", color);
+        .attr("fill", d => color(d));
 
     legend.append("text")
-        .attr("x", width + 10)
+        .attr("x", (d, i) => width - 585 + (i % 2) * 110)
         .attr("y", 9.5)
         .attr("dy", "0.32em")
         .text(d => {
@@ -144,3 +144,6 @@ d3.csv("data/factors.csv").then( function(data) {
             return playerName + ": " + factor;
         });
 });
+
+// Add this line at the end of the file
+export {};
